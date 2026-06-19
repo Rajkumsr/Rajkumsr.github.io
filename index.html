@@ -1,162 +1,825 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Rajkumar Patil — Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rajkumar Patil — AI Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root {
+  --accent: #7c3aed;
+  --accent-light: #a78bfa;
+  --accent-glow: rgba(124,58,237,0.35);
+  --bg: #0a0a0f;
+  --bg2: #0f0f18;
+  --bg3: #13131e;
+  --surface: #1a1a2a;
+  --surface2: #1f1f30;
+  --border: rgba(124,58,237,0.18);
+  --text: #e8e8f0;
+  --muted: #8888aa;
+  --display: 'Syne', sans-serif;
+  --body: 'DM Sans', sans-serif;
+}
+.theme-emerald { --accent:#059669;--accent-light:#34d399;--accent-glow:rgba(5,150,105,0.35); }
+.theme-amber { --accent:#d97706;--accent-light:#fbbf24;--accent-glow:rgba(217,119,6,0.35); }
+.theme-rose { --accent:#e11d48;--accent-light:#fb7185;--accent-glow:rgba(225,29,72,0.35); }
+.theme-cyan { --accent:#0891b2;--accent-light:#22d3ee;--accent-glow:rgba(8,145,178,0.35); }
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{background:var(--bg);color:var(--text);font-family:var(--body);line-height:1.6;overflow-x:hidden;cursor:none}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9998;opacity:.6}
+
+/* CURSOR */
+#cursor-dot,#cursor-ring{position:fixed;border-radius:50%;pointer-events:none;z-index:9999;transition:opacity .3s;will-change:transform}
+#cursor-dot{width:6px;height:6px;background:var(--accent-light);transform:translate(-50%,-50%)}
+#cursor-ring{width:32px;height:32px;border:1.5px solid var(--accent-light);transform:translate(-50%,-50%);transition:width .25s,height .25s,border-color .25s,opacity .3s;opacity:.6}
+#cursor-ring.hovered{width:52px;height:52px;border-color:var(--accent);opacity:1}
+@media(hover:none),(pointer:coarse){#cursor-dot,#cursor-ring{display:none}body{cursor:auto}}
+
+/* PROGRESS BARS */
+#progress-top{position:fixed;top:0;left:0;height:2.5px;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-light));z-index:9000;transition:width .1s linear}
+#progress-top::after{content:'';position:absolute;right:0;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:var(--accent-light);box-shadow:0 0 12px var(--accent-light),0 0 24px var(--accent)}
+#progress-right{position:fixed;top:0;right:0;width:2.5px;height:0%;background:linear-gradient(180deg,var(--accent),var(--accent-light));z-index:9000}
+#progress-right::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:8px;height:8px;border-radius:50%;background:var(--accent-light);box-shadow:0 0 12px var(--accent-light),0 0 24px var(--accent)}
+@media(max-width:768px){#progress-right{display:none}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:8000;padding:0 clamp(1rem,4vw,3rem);height:60px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,15,0.7);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:var(--display);font-weight:800;font-size:1.1rem;color:var(--text);cursor:pointer;letter-spacing:-.02em;display:flex;align-items:center;gap:.5rem;transition:color .3s}
+.nav-logo:hover{color:var(--accent-light)}
+.nav-logo-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent);display:inline-block;transition:background .3s}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:.85rem;font-weight:500;letter-spacing:.04em;text-transform:uppercase;transition:color .3s;padding:.2rem 0;border-bottom:1px solid transparent}
+.nav-links a:hover,.nav-links a.active{color:var(--accent-light);border-bottom-color:var(--accent)}
+.theme-label{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-10px);background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:.35rem 1rem;font-size:.75rem;color:var(--accent-light);opacity:0;pointer-events:none;transition:opacity .4s,transform .4s;z-index:9001;white-space:nowrap}
+.theme-label.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:768px){.nav-links{display:none}}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:80px clamp(1rem,4vw,3rem) 4rem}
+canvas#hero-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
+.hero-content{position:relative;z-index:2;max-width:900px}
+.hero-eyebrow{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-light);margin-bottom:1.5rem;display:flex;align-items:center;gap:.75rem;opacity:0;animation:fadeUp .8s .2s forwards}
+.hero-eyebrow::before{content:'';display:inline-block;width:32px;height:1px;background:var(--accent)}
+.hero-name{font-family:var(--display);font-weight:800;font-size:clamp(3.5rem,9vw,8rem);line-height:.92;letter-spacing:-.04em;color:var(--text);margin-bottom:1.2rem;opacity:0;animation:fadeUp .9s .4s forwards}
+.hero-name span.accent{color:var(--accent-light)}
+.hero-title{font-family:var(--display);font-weight:600;font-size:clamp(1.1rem,2.5vw,1.6rem);color:var(--muted);margin-bottom:1.6rem;letter-spacing:-.01em;opacity:0;animation:fadeUp .9s .55s forwards}
+.hero-value{font-size:clamp(1rem,1.5vw,1.15rem);color:var(--text);max-width:520px;line-height:1.65;margin-bottom:2.5rem;opacity:0;animation:fadeUp .9s .7s forwards;border-left:2px solid var(--accent);padding-left:1rem}
+.hero-ctas{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:fadeUp .9s .85s forwards}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.8rem 1.75rem;border-radius:4px;font-family:var(--body);font-weight:500;font-size:.92rem;text-decoration:none;transition:transform .2s,box-shadow .2s,background .2s;letter-spacing:.02em;position:relative;cursor:none}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:0 0 24px var(--accent-glow)}
+.btn-primary:hover{background:var(--accent-light);box-shadow:0 0 40px var(--accent-glow),0 4px 20px var(--accent-glow)}
+.btn-outline{background:transparent;color:var(--accent-light);border:1px solid var(--accent);box-shadow:inset 0 0 20px rgba(124,58,237,.05)}
+.btn-outline:hover{background:var(--accent-glow);box-shadow:0 0 24px var(--accent-glow)}
+.hero-avatar{position:absolute;right:clamp(1rem,6vw,7rem);top:50%;transform:translateY(-50%);opacity:0;animation:fadeIn 1.2s 1s forwards}
+.avatar-ring{width:140px;height:140px;border-radius:50%;border:2px solid var(--accent);padding:3px;box-shadow:0 0 40px var(--accent-glow),0 0 80px rgba(124,58,237,.15)}
+.avatar-inner{width:100%;height:100%;border-radius:50%;background:linear-gradient(135deg,var(--surface),var(--bg3));display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:2.2rem;font-weight:800;color:var(--accent-light);letter-spacing:-.03em}
+@media(max-width:900px){.hero-avatar{display:none}}
+
+/* SCRAMBLE */
+.scramble{display:inline}
+
+/* ABOUT */
+#about{padding:clamp(5rem,10vw,9rem) clamp(1rem,4vw,3rem)}
+.section-label{font-size:.75rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:2.5rem;display:flex;align-items:center;gap:.75rem}
+.section-label::after{content:'';flex:1;max-width:60px;height:1px;background:var(--accent)}
+.bento-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:1rem}
+.bento-bio{grid-column:span 8;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:2.5rem;position:relative;overflow:hidden;transition:border-color .3s}
+.bento-bio:hover{border-color:var(--accent)}
+.bento-bio h2{font-family:var(--display);font-size:clamp(1.8rem,3vw,2.4rem);font-weight:800;letter-spacing:-.03em;margin-bottom:1.2rem;line-height:1.1}
+.bento-bio p{color:var(--muted);line-height:1.75;font-size:1rem}
+.bento-stat{grid-column:span 4;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:2rem;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;transition:border-color .3s}
+.bento-stat:hover{border-color:var(--accent)}
+.stat-num{font-family:var(--display);font-size:3.5rem;font-weight:800;color:var(--accent-light);line-height:1;letter-spacing:-.04em}
+.stat-label{font-size:.82rem;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-top:.4rem}
+.bento-sm{grid-column:span 4;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.6rem;position:relative;overflow:hidden;transition:border-color .3s}
+.bento-sm:hover{border-color:var(--accent)}
+.bento-sm .stat-num{font-size:2.6rem}
+.bento-wide{grid-column:span 8;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.8rem 2rem;display:flex;align-items:center;gap:1.5rem;transition:border-color .3s}
+.bento-wide:hover{border-color:var(--accent)}
+.bento-wide-icon{width:48px;height:48px;border-radius:10px;background:var(--accent-glow);border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;color:var(--accent-light);font-size:1.3rem;flex-shrink:0}
+.bento-wide-text h4{font-family:var(--display);font-weight:700;font-size:1rem;margin-bottom:.3rem}
+.bento-wide-text p{color:var(--muted);font-size:.88rem;line-height:1.5}
+.cell-glow{position:absolute;border-radius:50%;width:200px;height:200px;pointer-events:none;background:radial-gradient(circle,var(--accent-glow) 0%,transparent 70%);transform:translate(-50%,-50%);opacity:0;transition:opacity .4s;z-index:0}
+.bento-bio>*:not(.cell-glow),.bento-stat>*:not(.cell-glow),.bento-sm>*:not(.cell-glow){position:relative;z-index:1}
+@media(max-width:900px){.bento-bio,.bento-stat,.bento-sm,.bento-wide{grid-column:span 12}}
+
+/* MARQUEE */
+.marquee-strip{padding:1.8rem 0;background:var(--bg3);border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;position:relative}
+.marquee-track{display:flex;gap:0;width:max-content;animation:marquee 28s linear infinite}
+.marquee-strip:hover .marquee-track{animation-play-state:paused}
+.marquee-item{display:flex;align-items:center;gap:.75rem;padding:0 2rem;white-space:nowrap;font-size:.88rem;color:var(--muted);font-weight:500;letter-spacing:.04em}
+.marquee-item span{color:var(--accent-light)}
+.marquee-sep{color:var(--accent);opacity:.4}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SKILLS */
+#skills{padding:clamp(4rem,8vw,7rem) clamp(1rem,4vw,3rem)}
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-top:2rem}
+.skill-cell{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.8rem;transition:border-color .3s;position:relative;overflow:hidden}
+.skill-cell:hover{border-color:var(--accent)}
+.skill-cell-title{font-family:var(--display);font-weight:700;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-light);margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem}
+.skill-cell-title i{font-size:.85rem}
+.tags{display:flex;flex-wrap:wrap;gap:.5rem}
+.tag{padding:.3rem .75rem;border-radius:999px;font-size:.78rem;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.2);color:var(--text);font-weight:500;letter-spacing:.02em;transition:background .2s,border-color .2s}
+.tag:hover{background:rgba(124,58,237,.25);border-color:var(--accent)}
+
+/* PROJECTS */
+#projects{padding:clamp(4rem,8vw,7rem) clamp(1rem,4vw,3rem)}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.25rem;margin-top:2rem}
+.project-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:2rem;display:flex;flex-direction:column;gap:1rem;transition:border-color .3s,box-shadow .3s;position:relative;overflow:hidden}
+.project-card:hover{border-color:var(--accent);box-shadow:0 8px 40px rgba(124,58,237,.12)}
+.project-index{font-family:var(--display);font-size:.75rem;font-weight:700;color:var(--accent);letter-spacing:.12em;text-transform:uppercase}
+.project-name{font-family:var(--display);font-size:1.25rem;font-weight:800;letter-spacing:-.02em;line-height:1.2}
+.project-desc{color:var(--muted);font-size:.9rem;line-height:1.65;flex:1}
+.project-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem}
+.project-tag{padding:.22rem .65rem;border-radius:4px;font-size:.74rem;background:var(--surface);border:1px solid var(--border);color:var(--muted)}
+
+/* EXPERIENCE */
+#experience{padding:clamp(4rem,8vw,7rem) clamp(1rem,4vw,3rem)}
+.timeline{position:relative;padding-left:2rem;margin-top:2rem}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--accent),transparent)}
+.timeline-item{position:relative;padding-bottom:3.5rem;padding-left:2rem}
+.timeline-item::before{content:'';position:absolute;left:-2rem;top:.4rem;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent);transform:translateX(calc(-50% + .5px))}
+.tl-meta{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:.5rem;margin-bottom:.4rem}
+.tl-company{font-family:var(--display);font-size:1.2rem;font-weight:800;letter-spacing:-.02em}
+.tl-dates{font-size:.8rem;color:var(--muted);letter-spacing:.04em;background:var(--surface);padding:.2rem .7rem;border-radius:999px;border:1px solid var(--border);white-space:nowrap}
+.tl-role{font-size:.9rem;color:var(--accent-light);font-weight:500;margin-bottom:1rem;letter-spacing:.02em}
+.tl-bullets{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+.tl-bullets li{color:var(--muted);font-size:.92rem;line-height:1.6;padding-left:1.2rem;position:relative}
+.tl-bullets li::before{content:'▸';position:absolute;left:0;color:var(--accent);font-size:.7rem;top:.15rem}
+
+/* EDU & CERTS */
+#education{padding:clamp(4rem,8vw,7rem) clamp(1rem,4vw,3rem)}
+.edu-cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:2rem}
+.edu-cert-grid h3{font-family:var(--display);font-weight:700;font-size:1rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent-light);margin-bottom:1.5rem;display:flex;align-items:center;gap:.5rem}
+.edu-item,.cert-item{padding:1.2rem 0;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:.2rem}
+.edu-item:last-child,.cert-item:last-child{border-bottom:none}
+.edu-degree{font-weight:600;font-size:.95rem}
+.edu-school{color:var(--muted);font-size:.85rem}
+.edu-year{font-size:.78rem;color:var(--accent-light);letter-spacing:.06em;margin-top:.2rem}
+.cert-name{font-weight:500;font-size:.9rem}
+.cert-badge{font-size:.75rem;color:var(--accent-light);margin-top:.15rem}
+@media(max-width:720px){.edu-cert-grid{grid-template-columns:1fr}}
+
+/* CLOSER */
+#contact{padding:clamp(5rem,10vw,10rem) clamp(1rem,4vw,3rem);text-align:center;position:relative;overflow:hidden}
+#contact::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,var(--accent-glow) 0%,transparent 65%);opacity:.5;pointer-events:none}
+.closer-label{font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1.5rem}
+.closer-heading{font-family:var(--display);font-size:clamp(2.5rem,6vw,5rem);font-weight:800;letter-spacing:-.04em;line-height:1;margin-bottom:1.2rem}
+.closer-sub{color:var(--muted);max-width:480px;margin:0 auto 2.5rem;font-size:1rem;line-height:1.7}
+.contact-links{display:flex;align-items:center;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-top:3rem}
+.contact-link{display:flex;align-items:center;gap:.5rem;color:var(--muted);text-decoration:none;font-size:.88rem;transition:color .3s}
+.contact-link:hover{color:var(--accent-light)}
+.contact-link i{color:var(--accent)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:1.5rem clamp(1rem,4vw,3rem);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;font-size:.78rem;color:var(--muted)}
+footer a{color:var(--muted);text-decoration:none}
+footer a:hover{color:var(--accent-light)}
+.footer-hint{opacity:.5;font-size:.72rem}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* SECTION SPACING */
+section{scroll-margin-top:60px}
+</style>
 </head>
 <body>
-  <div class="container">
-    <nav>
-      <div class="logo">
-        <div class="logo-mark" aria-hidden="true"><span>RP</span></div>
-        <div>
-          <div style="font-weight:800">Rajkumar Patil</div>
-          <div style="font-size:13px;color:var(--muted)">Generative AI · Data Scientist · Data Analyst </div>
-        </div>
-      </div>
-      <div class="nav-links" role="navigation" aria-label="Main navigation">
-      </div>
-    </nav>
 
-    <section class="hero">
-      <div class="card hero-left">
-        <h1>Hi I’m Rajkumar, a Data Scientist & AI Engineer.</h1>
-        <div class="subtitle">I design LLM-driven products, build end-to-end ML pipelines and craft data visualizations that help teams make decisions faster.</div>
-        <div class="badges">
-          <div class="badge">Pune, India</div>
-          <div class="badge">2.5+ years experience</div>
-          <div class="badge">Expleo Group</div>
-        </div>
-        <div class="cta-row">
-          <button class="btn btn-ghost" onclick="downloadResume()">Download Resume</button>
-        </div>
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="progress-top"></div>
+<div id="progress-right"></div>
+<div class="theme-label" id="theme-label"></div>
 
-        <div style="margin-top:18px">
-          <div class="section-title"><h2 id="experience">Experience</h2></div>
-          <div class="experience">
-            <div class="job">
-              <div class="meta-row">
-                <div>
-                  <strong>Software Engineer: Expleo Group</strong>
-                  <div class="meta">April 2022 — October 2024</div>
-                </div>
-                <div class="meta">Pune, Maharashtra</div>
-              </div>
-              <div style="margin-top:8px;color:var(--muted);font-size:14px">Built LLM-powered vehicle query system, and delivered automation solutions using Python and Azure.</div>
-            </div>
-          </div>
-
-            <div style="margin-top:12px">
-            <div class="section-title"><h2 id="projects">Selected Projects</h2></div>
-            <div class="projects">
-
-              <!-- Freelance Project -->
-              <div class="project">
-                <div class="project-tag" style="font-size:12px;color:#06b6d4;font-weight:700;margin-bottom:6px">FREELANCE</div>
-                <h4>Billing System Android App</h4>
-                <p>Developed a lightweight Flutter-based billing system for local retail businesses, generating thermal PDF receipts and auto-logging entries to Excel. Designed for mobile-only usage in rural/small-town environments.</p>
-              </div>
-
-              <!-- Organisation Projects -->
-              <div class="project">
-                <div class="project-tag" style="font-size:12px;color:#7c3aed;font-weight:700;margin-bottom:6px">Expleo Group</div>
-                <h4>LLM-powered vehicle Q&A</h4>
-                <p>Designed an LLM-powered solution to answer vehicle-related queries with both text and image outputs.</p>
-              </div>
-    
-              <div class="project">
-                <div class="project-tag" style="font-size:12px;color:#7c3aed;font-weight:700;margin-bottom:6px">Expleo Group</div>
-                <h4>Natural-language Data Viz</h4>
-                <p>Developed a data visualization tool that generates graphs based on the user's natural language input.</p>
-              </div>
-
-              <div class="project">
-                <div class="project-tag" style="font-size:12px;color:#7c3aed;font-weight:700;margin-bottom:6px">Expleo Group</div>
-                <h4>Real-time Object Detection</h4>
-                <p>Built a real-time object detection system using YOLO and Flask for image/video classification.</p>
-              </div>
-
-              <div class="project">
-                <div class="project-tag" style="font-size:12px;color:#7c3aed;font-weight:700;margin-bottom:6px">Expleo Group</div>
-                <h4>Low-code EDA Platform</h4>
-                <p>Created a low-code Django platform for exploratory data analysis with GenBI integration.</p>
-              </div>
-
-              <div class="project">
-                <div class="project-tag" style="font-size:12px;color:#7c3aed;font-weight:700;margin-bottom:6px">Expleo Group</div>
-                <h4>Web Test Runner</h4>
-                <p>Developed a web-based test case execution interface, eliminating dependency on IDEs.</p>
-              </div>
-
-              <div class="project">
-                <div class="project-tag" style="font-size:12px;color:#7c3aed;font-weight:700;margin-bottom:6px">Expleo Group</div>
-                <h4>Automation: Birthday Emails</h4>
-                <p>Automated employee birthday email notifications using Python.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-          
-      <aside class="profile-card card sidebar">
-        <div class="avatar" aria-hidden="true">
-          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="100" height="100" rx="18" fill="white" opacity="0.06"/><text x="50" y="58" text-anchor="middle" font-family="Inter, sans-serif" font-weight="800" font-size="36" fill="white">RP</text></svg>
-        </div>
-        <div style="text-align:center">
-          <div style="font-weight:800">Rajkumar Patil</div>
-          <div class="contact-small">rajkumarpatil2203@gmail.com</div>
-        </div>
-
-        <div style="width:100%" class="info-row">
-          <div>
-            <div style="font-weight:700">Top Skills</div>
-            <div class="skill-list">
-              <div class="skill-pill">Python</div>
-              <div class="skill-pill">LLMs</div>
-              <div class="skill-pill">Power BI</div>
-              <div class="skill-pill">YOLO</div>
-              <div class="skill-pill">Azure</div>
-            </div>
-          </div>
-
-          <div>
-            <div style="font-weight:700">Education</div>
-            <div style="color:var(--muted);font-size:14px">BE Information Technology, Savitribai Phule Pune University (2019–2022)</div>
-          </div>
-
-          <div>
-            <div style="font-weight:700">Languages</div>
-            <div style="color:var(--muted);font-size:14px">English, Marathi, Hindi</div>
-          </div>
-        </div>
-
-        <div style="margin-top:10px;display:flex;gap:8px;width:100%">
-          <a class="btn btn-ghost" href="https://www.linkedin.com/in/rajkumar-patil-2b13a5180/" target="_blank">LinkedIn</a>
-          <button class="btn btn-primary" onclick="downloadResume()">Download</button>
-        </div>
-      </aside>
-    </section>
-
-    <main style="display:none"></main>
-
-    <footer>
-      Built with care: Rajkumar Patil • Last updated: Dec 2025
-    </footer>
+<nav>
+  <div class="nav-logo" id="logo-btn">
+    <span class="nav-logo-dot"></span>RP
   </div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
 
-  <script>
-    function downloadResume(){
-      const blob = new Blob([`Resume for Rajkumar Patil
-Email: rajkumarpatil2203@gmail.com
-Experience: Expleo Group — Software Engineer (Apr 2022 - Oct 2024)`], {type:'text/plain'});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url; a.download = 'Rajkumar_Patil_Resume.txt';
-      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+<!-- HERO -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-eyebrow">AI Engineer · Available for hire</div>
+    <h1 class="hero-name">Rajkumar<br><span class="accent" id="scramble-word">Patil</span></h1>
+    <p class="hero-title">Building production-ready AI systems</p>
+    <p class="hero-value">Designing and shipping LLM workflows, RAG pipelines, and agentic AI — with a focus on reliability and cost efficiency.</p>
+    <div class="hero-ctas">
+      <a href="#contact" class="btn btn-primary magnetic"><i class="fa-solid fa-paper-plane"></i> Get in touch</a>
+      <a href="#experience" class="btn btn-outline magnetic"><i class="fa-solid fa-code-branch"></i> See my work</a>
+    </div>
+  </div>
+  <div class="hero-avatar">
+    <div class="avatar-ring">
+      <div class="avatar-inner">RP</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label reveal"><i class="fa-solid fa-user"></i> About</div>
+  <div class="bento-grid">
+    <div class="bento-bio reveal">
+      <div class="cell-glow"></div>
+      <h2>I build AI that<br>actually ships.</h2>
+      <p style="margin-top:1rem">With 3+ years building Python-based backend systems and AI-driven automation, I specialize in turning LLM capabilities into production-grade products. From RAG pipelines at scale to WhatsApp commerce agents to Flutter billing apps — I care about the full journey from prototype to deployed.</p>
+      <p style="margin-top:.9rem">Currently freelancing and actively exploring full-time AI engineering roles where I can go deep on agentic systems, product reasoning, and scalable LLM architecture.</p>
+    </div>
+    <div class="bento-stat reveal reveal-delay-1">
+      <div class="cell-glow"></div>
+      <div class="stat-num count-up" data-target="3">0</div>
+      <div class="stat-label">Years of professional experience</div>
+    </div>
+    <div class="bento-sm reveal reveal-delay-1" style="grid-column:span 4">
+      <div class="cell-glow"></div>
+      <div class="stat-num count-up" data-target="2">0</div>
+      <div class="stat-label">Companies worked at</div>
+    </div>
+    <div class="bento-sm reveal reveal-delay-2" style="grid-column:span 4">
+      <div class="cell-glow"></div>
+      <div class="stat-num count-up" data-target="5">0</div>
+      <div class="stat-label">Certifications earned</div>
+    </div>
+    <div class="bento-sm reveal reveal-delay-3" style="grid-column:span 4">
+      <div class="cell-glow"></div>
+      <div class="stat-num count-up" data-target="2">0</div>
+      <div class="stat-label">Team Impact Awards</div>
+    </div>
+    <div class="bento-wide reveal reveal-delay-2">
+      <div class="bento-wide-icon"><i class="fa-solid fa-cloud"></i></div>
+      <div class="bento-wide-text">
+        <h4>Microsoft Certified: Azure Fundamentals (AZ-900)</h4>
+        <p>Cloud architecture fundamentals — deployed and integrated AI services on Azure in production environments.</p>
+      </div>
+    </div>
+    <div class="bento-sm reveal reveal-delay-3" style="grid-column:span 4">
+      <div class="cell-glow"></div>
+      <div style="font-family:var(--display);font-weight:800;font-size:1.2rem;margin-bottom:.4rem;color:var(--text)">AZ-900 · IBM DS · MySQL</div>
+      <div class="stat-label">Top certifications</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track" id="marquee-track">
+    <div class="marquee-item"><span>LangChain</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>LangGraph</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>RAG Pipelines</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>LLM Engineering</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Prompt Engineering</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Python</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>FastAPI / Flask</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>YOLOv5</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>OpenCV</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Vector Databases</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Azure</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Flutter</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Agentic AI</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Conversational AI</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>NLP</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>REST APIs</span> <span class="marquee-sep">◆</span></div>
+    <!-- duplicate for seamless loop -->
+    <div class="marquee-item"><span>LangChain</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>LangGraph</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>RAG Pipelines</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>LLM Engineering</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Prompt Engineering</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Python</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>FastAPI / Flask</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>YOLOv5</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>OpenCV</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Vector Databases</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Azure</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Flutter</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Agentic AI</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>Conversational AI</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>NLP</span> <span class="marquee-sep">◆</span></div>
+    <div class="marquee-item"><span>REST APIs</span> <span class="marquee-sep">◆</span></div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label reveal"><i class="fa-solid fa-layer-group"></i> Skills</div>
+  <div class="skills-grid">
+    <div class="skill-cell reveal tilt-card">
+      <div class="cell-glow"></div>
+      <div class="skill-cell-title"><i class="fa-solid fa-brain"></i> AI / ML</div>
+      <div class="tags">
+        <span class="tag">Large Language Models</span>
+        <span class="tag">Generative AI</span>
+        <span class="tag">RAG</span>
+        <span class="tag">LangChain</span>
+        <span class="tag">LangGraph</span>
+        <span class="tag">Prompt Engineering</span>
+        <span class="tag">NLP</span>
+        <span class="tag">Agentic AI</span>
+        <span class="tag">Conversational AI</span>
+      </div>
+    </div>
+    <div class="skill-cell reveal reveal-delay-1 tilt-card">
+      <div class="cell-glow"></div>
+      <div class="skill-cell-title"><i class="fa-solid fa-code"></i> Languages & Frameworks</div>
+      <div class="tags">
+        <span class="tag">Python</span>
+        <span class="tag">Flask</span>
+        <span class="tag">FastAPI</span>
+        <span class="tag">REST APIs</span>
+        <span class="tag">SQL</span>
+        <span class="tag">Flutter</span>
+        <span class="tag">Dart</span>
+      </div>
+    </div>
+    <div class="skill-cell reveal reveal-delay-2 tilt-card">
+      <div class="cell-glow"></div>
+      <div class="skill-cell-title"><i class="fa-solid fa-eye"></i> Computer Vision</div>
+      <div class="tags">
+        <span class="tag">YOLOv5</span>
+        <span class="tag">OpenCV</span>
+        <span class="tag">Object Detection</span>
+        <span class="tag">Image Classification</span>
+      </div>
+    </div>
+    <div class="skill-cell reveal tilt-card">
+      <div class="cell-glow"></div>
+      <div class="skill-cell-title"><i class="fa-solid fa-cloud"></i> Cloud & DevOps</div>
+      <div class="tags">
+        <span class="tag">Microsoft Azure</span>
+        <span class="tag">AZ-900</span>
+        <span class="tag">Git</span>
+        <span class="tag">CI/CD</span>
+        <span class="tag">Agile / Scrum</span>
+      </div>
+    </div>
+    <div class="skill-cell reveal reveal-delay-1 tilt-card">
+      <div class="cell-glow"></div>
+      <div class="skill-cell-title"><i class="fa-solid fa-database"></i> Data & Databases</div>
+      <div class="tags">
+        <span class="tag">MySQL</span>
+        <span class="tag">Vector Databases</span>
+        <span class="tag">SQL</span>
+        <span class="tag">Data Analytics</span>
+        <span class="tag">IBM Data Science</span>
+      </div>
+    </div>
+    <div class="skill-cell reveal reveal-delay-2 tilt-card">
+      <div class="cell-glow"></div>
+      <div class="skill-cell-title"><i class="fa-solid fa-gears"></i> Systems & Concepts</div>
+      <div class="tags">
+        <span class="tag">Scalable Backend Design</span>
+        <span class="tag">LLM Cost Optimization</span>
+        <span class="tag">Chunking Strategies</span>
+        <span class="tag">Vector Store Tuning</span>
+        <span class="tag">Token Optimization</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label reveal"><i class="fa-solid fa-rocket"></i> Projects</div>
+  <div class="projects-grid">
+    <div class="project-card reveal tilt-card">
+      <div class="cell-glow"></div>
+      <div class="project-index">01</div>
+      <div class="project-name">AI Sales CRM Agent</div>
+      <p class="project-desc">An autonomous AI sales agent integrated with a client's CRM system. Updates lead status to Interested / Not Interested, schedules follow-ups for specific future dates, and communicates with leads end-to-end via WhatsApp — zero manual intervention required.</p>
+      <div class="project-tags">
+        <span class="project-tag">LangGraph</span>
+        <span class="project-tag">LLMs</span>
+        <span class="project-tag">WhatsApp API</span>
+        <span class="project-tag">CRM Integration</span>
+        <span class="project-tag">Python</span>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-1 tilt-card">
+      <div class="cell-glow"></div>
+      <div class="project-index">02</div>
+      <div class="project-name">WhatsApp Conversational Commerce Platform</div>
+      <p class="project-desc">End-to-end AI-driven automation platform for conversational commerce. Enables businesses to run complete customer interaction workflows at scale — from product queries to order confirmation — entirely inside WhatsApp.</p>
+      <div class="project-tags">
+        <span class="project-tag">Conversational AI</span>
+        <span class="project-tag">LangChain</span>
+        <span class="project-tag">WhatsApp API</span>
+        <span class="project-tag">Agentic Workflows</span>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-2 tilt-card">
+      <div class="cell-glow"></div>
+      <div class="project-index">03</div>
+      <div class="project-name">Enterprise RAG Pipeline</div>
+      <p class="project-desc">Architected production-grade Retrieval-Augmented Generation pipelines using LangChain and LangGraph, providing context-aware, grounded AI responses. Optimized for token cost and reliability through advanced chunking and vector store tuning strategies.</p>
+      <div class="project-tags">
+        <span class="project-tag">RAG</span>
+        <span class="project-tag">LangChain</span>
+        <span class="project-tag">LangGraph</span>
+        <span class="project-tag">Vector DB</span>
+        <span class="project-tag">Prompt Engineering</span>
+      </div>
+    </div>
+    <div class="project-card reveal tilt-card">
+      <div class="cell-glow"></div>
+      <div class="project-index">04</div>
+      <div class="project-name">NL Business Intelligence Query Platform</div>
+      <p class="project-desc">AI-enabled backend service at Expleo Group letting business users query structured BI data in plain English. Built with Python and Flask, with LLM integration translating natural language into data queries — removing the need for SQL knowledge.</p>
+      <div class="project-tags">
+        <span class="project-tag">LLMs</span>
+        <span class="project-tag">Flask</span>
+        <span class="project-tag">Python</span>
+        <span class="project-tag">REST API</span>
+        <span class="project-tag">NLP</span>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-1 tilt-card">
+      <div class="cell-glow"></div>
+      <div class="project-index">05</div>
+      <div class="project-name">Automotive NL Vehicle Query System</div>
+      <p class="project-desc">LLM-based vehicle discovery system enabling natural language search over large structured automotive datasets. Significantly reduced query turnaround time compared to traditional search interfaces.</p>
+      <div class="project-tags">
+        <span class="project-tag">LLMs</span>
+        <span class="project-tag">NLP</span>
+        <span class="project-tag">Python</span>
+        <span class="project-tag">SQL</span>
+        <span class="project-tag">REST API</span>
+      </div>
+    </div>
+    <div class="project-card reveal reveal-delay-2 tilt-card">
+      <div class="cell-glow"></div>
+      <div class="project-index">06</div>
+      <div class="project-name">Cloth Store Billing App (Flutter)</div>
+      <p class="project-desc">Mobile-first billing application built for a local cloth store in Flutter. Handles inventory, cart management, GST calculations, discounts, and receipt generation — a complete offline-capable retail POS experience.</p>
+      <div class="project-tags">
+        <span class="project-tag">Flutter</span>
+        <span class="project-tag">Dart</span>
+        <span class="project-tag">Mobile</span>
+        <span class="project-tag">Offline-first</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label reveal"><i class="fa-solid fa-briefcase"></i> Experience</div>
+  <div class="timeline reveal">
+    <div class="timeline-item">
+      <div class="tl-meta">
+        <span class="tl-company">Freelancing</span>
+        <span class="tl-dates">Sept 2025 – Present</span>
+      </div>
+      <div class="tl-role">Independent AI Engineer · Pune, Maharashtra</div>
+      <ul class="tl-bullets">
+        <li>Built an AI Sales Agent integrated with a client's CRM — updating lead status, scheduling follow-ups, and managing WhatsApp communication autonomously.</li>
+        <li>Architected production RAG pipelines using LangChain and LangGraph for enterprise use cases, reducing token costs significantly through prompt engineering and vector store tuning.</li>
+        <li>Developed a Flutter billing app for a local cloth store and an AI-driven WhatsApp automation platform for end-to-end conversational commerce.</li>
+      </ul>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-meta">
+        <span class="tl-company">Expleo Group</span>
+        <span class="tl-dates">April 2022 – October 2024</span>
+      </div>
+      <div class="tl-role">Software Engineer · Pune, Maharashtra</div>
+      <ul class="tl-bullets">
+        <li>Developed AI-enabled backend services and REST APIs using Python and Flask, integrating LLMs into a natural language Business Intelligence query platform.</li>
+        <li>Built an LLM-based vehicle query system enabling natural language search over structured automotive data, significantly cutting query turnaround time.</li>
+        <li>Implemented real-time computer vision applications using YOLOv5 and OpenCV for object detection and classification in production environments.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION & CERTS -->
+<section id="education">
+  <div class="section-label reveal"><i class="fa-solid fa-graduation-cap"></i> Education & Certifications</div>
+  <div class="edu-cert-grid reveal">
+    <div>
+      <h3><i class="fa-solid fa-building-columns"></i> Education</h3>
+      <div class="edu-item">
+        <div class="edu-degree">B.E. — Information Technology</div>
+        <div class="edu-school">Savitribai Phule Pune University, Pune</div>
+        <div class="edu-year">2019 – 2022</div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-degree">Diploma — Computer Technology</div>
+        <div class="edu-school">Karmayogi Polytechnic College Shelve, Pune</div>
+        <div class="edu-year">2016 – 2019</div>
+      </div>
+    </div>
+    <div>
+      <h3><i class="fa-solid fa-certificate"></i> Certifications</h3>
+      <div class="cert-item">
+        <div class="cert-name">Microsoft Certified: Azure Fundamentals</div>
+        <div class="cert-badge"><i class="fa-brands fa-microsoft"></i> AZ-900</div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-name">IBM Data Science Professional Certificate</div>
+        <div class="cert-badge"><i class="fa-solid fa-flask"></i> IBM</div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-name">MySQL Implementation Certified Associate</div>
+        <div class="cert-badge"><i class="fa-solid fa-database"></i> MySQL</div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-name">Data Analytics Certification</div>
+        <div class="cert-badge"><i class="fa-solid fa-chart-bar"></i> Analytics</div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-name">TCS iON Career Edge – Young Professional</div>
+        <div class="cert-badge"><i class="fa-solid fa-star"></i> TCS iON</div>
+      </div>
+      <div class="cert-item" style="border:none;padding-top:.8rem">
+        <div class="cert-name" style="color:var(--accent-light);font-size:.88rem">🏆 Team Impact Award (×2)</div>
+        <div class="cert-badge">Recognized for cross-team collaboration and measurable delivery outcomes at Expleo Group.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLOSER -->
+<section id="contact">
+  <div class="closer-label reveal">Let's build something</div>
+  <h2 class="closer-heading reveal reveal-delay-1">Got a problem<br>that needs <span style="color:var(--accent-light)">AI?</span></h2>
+  <p class="closer-sub reveal reveal-delay-2">I'm open to full-time roles and freelance engagements. If you're building something that requires LLMs, RAG, or intelligent automation — let's talk.</p>
+  <div class="reveal reveal-delay-3">
+    <a href="mailto:rajkumarpatil2203@gmail.com" class="btn btn-primary magnetic" style="font-size:1rem;padding:1rem 2.2rem;display:inline-flex">
+      <i class="fa-solid fa-envelope"></i> rajkumarpatil2203@gmail.com
+    </a>
+  </div>
+  <div class="contact-links reveal reveal-delay-3">
+    <a href="mailto:rajkumarpatil2203@gmail.com" class="contact-link"><i class="fa-solid fa-envelope"></i> Email</a>
+    <a href="https://www.linkedin.com/in/rajkumar-patil-ai" class="contact-link" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+    <a href="tel:+917744042203" class="contact-link"><i class="fa-solid fa-phone"></i> +91 77440 42203</a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2025 Rajkumar Patil</span>
+  <span class="footer-hint">Psst — click the logo to change the vibe ✦</span>
+  <span>Built by hand, shipped with intent.</span>
+</footer>
+
+<script>
+// =====================
+// TOUCH DETECT
+// =====================
+const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+
+// =====================
+// CURSOR
+// =====================
+if (!isTouch) {
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animCursor() {
+    dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+    rx += (mx - rx) * .12; ry += (my - ry) * .12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animCursor);
+  }
+  animCursor();
+  document.querySelectorAll('a,button,.btn,.tilt-card,.bento-stat,.bento-sm,.bento-bio,.bento-wide,.skill-cell,.nav-logo').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('hovered'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
+  });
+}
+
+// =====================
+// SCROLL PROGRESS
+// =====================
+const progressTop = document.getElementById('progress-top');
+const progressRight = document.getElementById('progress-right');
+window.addEventListener('scroll', () => {
+  const pct = window.scrollY / (document.body.scrollHeight - window.innerHeight) * 100;
+  progressTop.style.width = pct + '%';
+  progressRight.style.height = pct + '%';
+}, {passive: true});
+
+// =====================
+// NAV ACTIVE
+// =====================
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + e.target.id);
+      });
     }
-  </script>
+  });
+}, {rootMargin: '-40% 0px -55% 0px'});
+sections.forEach(s => observer.observe(s));
+
+// =====================
+// REVEAL ON SCROLL
+// =====================
+const reveals = document.querySelectorAll('.reveal');
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } });
+}, {threshold: 0.12});
+reveals.forEach(r => revealObs.observe(r));
+
+// =====================
+// COUNT-UP
+// =====================
+const countEls = document.querySelectorAll('.count-up');
+const countObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    const el = e.target;
+    const target = +el.dataset.target;
+    let start = 0;
+    const dur = 1400;
+    const step = t => {
+      start += 16;
+      const progress = Math.min(start / dur, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(ease * target);
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target + '+';
+    };
+    requestAnimationFrame(step);
+    countObs.unobserve(el);
+  });
+}, {threshold: 0.5});
+countEls.forEach(el => countObs.observe(el));
+
+// =====================
+// BENTO GLOW
+// =====================
+document.querySelectorAll('.bento-bio,.bento-stat,.bento-sm,.bento-wide,.skill-cell,.project-card').forEach(cell => {
+  const glow = cell.querySelector('.cell-glow');
+  if (!glow) return;
+  cell.addEventListener('mousemove', e => {
+    const r = cell.getBoundingClientRect();
+    glow.style.left = (e.clientX - r.left) + 'px';
+    glow.style.top = (e.clientY - r.top) + 'px';
+    glow.style.opacity = '1';
+  });
+  cell.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
+});
+
+// =====================
+// 3D TILT (desktop)
+// =====================
+if (!isTouch) {
+  document.querySelectorAll('.tilt-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top + r.height / 2;
+      const dx = (e.clientX - cx) / (r.width / 2);
+      const dy = (e.clientY - cy) / (r.height / 2);
+      card.style.transform = `perspective(800px) rotateY(${dx * 5}deg) rotateX(${-dy * 5}deg) translateZ(4px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = 'perspective(800px) rotateY(0) rotateX(0) translateZ(0)';
+    });
+  });
+}
+
+// =====================
+// MAGNETIC BUTTONS (desktop)
+// =====================
+if (!isTouch) {
+  document.querySelectorAll('.magnetic').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const dx = e.clientX - (r.left + r.width / 2);
+      const dy = e.clientY - (r.top + r.height / 2);
+      btn.style.transform = `translate(${dx * 0.25}px, ${dy * 0.3}px)`;
+    });
+    btn.addEventListener('mouseleave', () => { btn.style.transform = ''; });
+  });
+}
+
+// =====================
+// HERO CANVAS (particle mesh)
+// =====================
+(function() {
+  const canvas = document.getElementById('hero-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, pts, mouse = {x: -9999, y: -9999};
+  function resize() {
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+  function mkPts() {
+    pts = [];
+    const n = Math.floor((W * H) / 14000);
+    for (let i = 0; i < n; i++) {
+      pts.push({ x: Math.random()*W, y: Math.random()*H, vx: (Math.random()-.5)*.35, vy: (Math.random()-.5)*.35, r: Math.random()*2+.8 });
+    }
+  }
+  canvas.parentElement.addEventListener('mousemove', e => {
+    const r = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top;
+  });
+  canvas.parentElement.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    pts.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = W; if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H; if (p.y > H) p.y = 0;
+      const dx = p.x - mouse.x, dy = p.y - mouse.y, dist = Math.sqrt(dx*dx+dy*dy);
+      if (dist < 120) { p.x += dx/dist*1.2; p.y += dy/dist*1.2; }
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(167,139,250,.55)';
+      ctx.fill();
+    });
+    for (let i = 0; i < pts.length; i++) {
+      for (let j = i+1; j < pts.length; j++) {
+        const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
+        const d = Math.sqrt(dx*dx+dy*dy);
+        if (d < 130) {
+          ctx.beginPath();
+          ctx.moveTo(pts[i].x, pts[i].y);
+          ctx.lineTo(pts[j].x, pts[j].y);
+          ctx.strokeStyle = `rgba(124,58,237,${.35*(1-d/130)})`;
+          ctx.lineWidth = .7;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  window.addEventListener('resize', () => { resize(); mkPts(); });
+  resize(); mkPts(); draw();
+})();
+
+// =====================
+// SCRAMBLE EFFECT
+// =====================
+(function() {
+  const el = document.getElementById('scramble-word');
+  const original = el.textContent;
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ01234';
+  let frame = 0, interval;
+  function scramble() {
+    frame++;
+    el.textContent = original.split('').map((c, i) => {
+      if (i < frame / 2) return original[i];
+      return chars[Math.floor(Math.random() * chars.length)];
+    }).join('');
+    if (frame < original.length * 2) requestAnimationFrame(scramble);
+    else el.textContent = original;
+  }
+  setTimeout(() => scramble(), 900);
+})();
+
+// =====================
+// THEME EASTER EGG
+// =====================
+const themes = [
+  {cls: '', label: '✦ Electric Violet'},
+  {cls: 'theme-emerald', label: '✦ Deep Emerald'},
+  {cls: 'theme-amber', label: '✦ Molten Amber'},
+  {cls: 'theme-rose', label: '✦ Crimson Rose'},
+  {cls: 'theme-cyan', label: '✦ Electric Cyan'},
+];
+let themeIdx = 0;
+const themeLabel = document.getElementById('theme-label');
+document.getElementById('logo-btn').addEventListener('click', () => {
+  themeIdx = (themeIdx + 1) % themes.length;
+  document.body.className = themes[themeIdx].cls;
+  themeLabel.textContent = themes[themeIdx].label;
+  themeLabel.classList.add('show');
+  clearTimeout(themeLabel._t);
+  themeLabel._t = setTimeout(() => themeLabel.classList.remove('show'), 2000);
+});
+</script>
 </body>
 </html>
